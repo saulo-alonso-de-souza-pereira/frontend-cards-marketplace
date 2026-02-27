@@ -1,4 +1,4 @@
-// Interface para o usuário
+// Interface User
 export interface IUser {
   id: string;
   name: string;
