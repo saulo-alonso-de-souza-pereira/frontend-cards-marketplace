@@ -37,7 +37,15 @@
     >
       <q-list>
         <q-item-label header>Menu Dashboard</q-item-label>
-        </q-list>
+        <q-item clickable v-ripple :to="{ name: 'home' }">
+          <q-item-section avatar><q-icon name="collections" /></q-item-section>
+          <q-item-section>Catálogo de Cartas</q-item-section>
+        </q-item>
+        <q-item clickable v-ripple :to="{ name: 'my-cards' }">
+          <q-item-section avatar><q-icon name="portrait" /></q-item-section>
+          <q-item-section>Meu Inventário</q-item-section>
+        </q-item>
+      </q-list>
     </q-drawer>
 
     <q-page-container>

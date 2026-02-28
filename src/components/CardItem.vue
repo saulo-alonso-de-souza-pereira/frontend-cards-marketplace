@@ -20,7 +20,7 @@
 
     <q-separator />
 
-    <q-card-actions align="right">
+    <q-card-actions align="right" v-if="!hideAddButton">
       <q-btn
         v-if="authStore.isAuthenticated"
         flat
@@ -42,7 +42,8 @@
 
 
   const props = defineProps<{
-    card: ICard
+    card: ICard,
+    hideAddButton?: boolean
   }>();
 
   const authStore = useAuthStore();
