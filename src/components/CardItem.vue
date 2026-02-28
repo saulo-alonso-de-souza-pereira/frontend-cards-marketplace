@@ -25,9 +25,10 @@
         v-if="authStore.isAuthenticated"
         flat
         color="primary"
-        label="Adicionar à Conta"
+        label="Adicionar"
         icon="add_circle"
-        @click="$emit('add', card)"
+        :loading="submitting"
+        @click="handleAction"
       />
       <q-badge v-else outline color="grey-7" label="Logue para colecionar" class="q-ma-sm" />
     </q-card-actions>
@@ -35,17 +36,26 @@
 </template>
 
 <script setup lang="ts">
+  import { ref } from 'vue';
   import type { ICard } from 'src/types';
   import { useAuthStore } from 'src/stores/auth';
-  const authStore = useAuthStore();
 
-  defineProps<{
+
+  const props = defineProps<{
     card: ICard
   }>();
 
-  defineEmits<{
-    (e: 'add', card: ICard): void
-  }>();
+  const authStore = useAuthStore();
+  const submitting = ref(false);
+
+  async function handleAction() {
+    submitting.value = true;
+    try {
+      await authStore.addCardToMe(props.card.id);
+    } finally {
+      submitting.value = false;
+    }
+  }
   </script>
 
   <style lang="scss" scoped>

@@ -1,12 +1,15 @@
 import { defineStore } from 'pinia';
 import { api } from 'boot/axios';
-import type { IUser, ILoginResponse } from 'src/types';
+import { Notify } from 'quasar';
+import type { IUser, ILoginResponse, ICard } from 'src/types';
 import { useCardsStore } from './cards';
+
 
 export const useAuthStore = defineStore('auth', {
   state: () => ({
     user: null as IUser | null,
     token: localStorage.getItem('token') || '',
+    myCards: [] as ICard[],
   }),
 
   getters: {
@@ -29,6 +32,33 @@ export const useAuthStore = defineStore('auth', {
       localStorage.removeItem('token');
       const cardsStore = useCardsStore();
       cardsStore.$reset();
+    },
+    async addCardToMe(cardId: string) {
+      try {
+        await api.post('/me/cards', {
+          cardIds: [cardId]
+        });
+        console.log('Carta adicionada ao inventário do usuário ', cardId);
+        // eslint-disable-next-line
+        api.get<IUser>('/me').then( response => {
+          const updatedUser = response.data;
+          console.log('Resposta atualizada do usuário:', updatedUser);
+        });
+        Notify.create({
+          message: `Carta adicionada ao seu inventário!`,
+          color: 'positive',
+          icon: 'check_circle'
+        });
+
+        return true;
+      } catch {
+        Notify.create({
+          message: `Erro ao adicionar carta ao seu inventário.`,
+          color: 'negative',
+          icon: 'error'
+        });
+        return false;
+      }
     }
   }
 });
