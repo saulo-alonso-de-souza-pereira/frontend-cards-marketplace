@@ -3,6 +3,7 @@
     <q-header elevated>
       <q-toolbar>
         <q-btn
+          v-if="authStore.isAuthenticated"
           flat
           dense
           round
@@ -15,28 +16,28 @@
           Cards Marketplace
         </q-toolbar-title>
 
-        <q-btn
-          flat
-          label="Sair"
-          icon-right="logout"
-          @click="handleLogout"
-        />
+        <div class="q-gutter-sm">
+          <template v-if="!authStore.isAuthenticated">
+            <q-btn flat label="Entrar" :to="{ name: 'login' }" />
+            <q-btn color="white" text-color="primary" label="Registrar" :to="{ name: 'register' }" />
+          </template>
+
+          <template v-else>
+            <q-btn flat label="Sair" icon-right="logout" @click="handleLogout" />
+          </template>
+        </div>
       </q-toolbar>
     </q-header>
 
     <q-drawer
+      v-if="authStore.isAuthenticated"
       v-model="leftDrawerOpen"
       show-if-above
       bordered
     >
       <q-list>
-        <q-item-label
-          header
-        >
-          Essential Links
-        </q-item-label>
-
-      </q-list>
+        <q-item-label header>Menu Dashboard</q-item-label>
+        </q-list>
     </q-drawer>
 
     <q-page-container>
@@ -46,21 +47,20 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
-import { useRouter } from 'vue-router';
-import { useAuthStore } from 'src/stores/auth';
+  import { ref } from 'vue';
+  import { useRouter } from 'vue-router';
+  import { useAuthStore } from 'src/stores/auth';
 
-const router = useRouter();
-const authStore = useAuthStore();
-const leftDrawerOpen = ref(false);
+  const authStore = useAuthStore();
+  const router = useRouter();
+  const leftDrawerOpen = ref(false);
 
-function toggleLeftDrawer () {
-  leftDrawerOpen.value = !leftDrawerOpen.value;
-}
+  function toggleLeftDrawer () {
+    leftDrawerOpen.value = !leftDrawerOpen.value;
+  }
 
-async function handleLogout() {
-  authStore.logout();
-
-  await router.push({ name: 'login' });
-}
+  async function handleLogout() {
+    authStore.logout();
+    await router.push({ name: 'login' });
+  }
 </script>

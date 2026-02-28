@@ -22,18 +22,22 @@
 
     <q-card-actions align="right">
       <q-btn
+        v-if="authStore.isAuthenticated"
         flat
         color="primary"
-        label="Adicionar"
-        icon="add"
+        label="Adicionar à Conta"
+        icon="add_circle"
         @click="$emit('add', card)"
       />
+      <q-badge v-else outline color="grey-7" label="Logue para colecionar" class="q-ma-sm" />
     </q-card-actions>
   </q-card>
 </template>
 
 <script setup lang="ts">
   import type { ICard } from 'src/types';
+  import { useAuthStore } from 'src/stores/auth';
+  const authStore = useAuthStore();
 
   defineProps<{
     card: ICard
