@@ -6,7 +6,14 @@ const routes: RouteRecordRaw[] = [
     component: () => import('layouts/MainLayout.vue'),
     children: [
       { path: '', name: 'home', component: () => import('pages/CardsPage.vue') },
-      { path: 'dashboard', name: 'dashboard', component: () => import('pages/IndexPage.vue') },
+    ],
+  },
+  {
+    path: '/dashboard',
+    component: () => import('layouts/MainLayout.vue'),
+    meta: { requiresAuth: true },
+    children: [
+      { path: '', name: 'dashboard', component: () => import('pages/IndexPage.vue') },
       { path: 'my-cards', name: 'my-cards', component: () => import('pages/MyCardsPage.vue') },
     ],
   },

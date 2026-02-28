@@ -21,7 +21,8 @@ export default route(function (/* { store, ssrContext } */) {
 
   Router.beforeEach((to, from, next) => {
     const authStore = useAuthStore();
-    const requiresAuth = to.matched.some(record => record.name === 'dashboard' || record.path.includes('/dashboard'));
+
+    const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
     const isAuthPage = to.path.startsWith('/auth');
 
     if (requiresAuth && !authStore.isAuthenticated) {
