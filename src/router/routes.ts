@@ -2,7 +2,6 @@ import type { RouteRecordRaw } from 'vue-router';
 
 const routes: RouteRecordRaw[] = [
   {
-    // Redireciona a raiz para o login
     path: '/',
     redirect: '/auth/login',
   },
@@ -31,11 +30,20 @@ const routes: RouteRecordRaw[] = [
         name: 'dashboard',
         component: () => import('pages/IndexPage.vue')
       },
-      // Futuras rotas como /dashboard/me podem ser adicionadas aqui
+      {
+        path: '/cards',
+        component: () => import('layouts/MainLayout.vue'),
+        children: [
+          {
+            path: '',
+            name: 'cards-list',
+            component: () => import('pages/CardsPage.vue')
+          }
+        ]
+      }
     ],
   },
   {
-    // Catch-all para 404
     path: '/:catchAll(.*)*',
     component: () => import('pages/ErrorNotFound.vue'),
   },

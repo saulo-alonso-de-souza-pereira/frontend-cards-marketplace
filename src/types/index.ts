@@ -25,6 +25,14 @@ export interface ICard {
   createdAt: string;
 }
 
+// Interface de Páginação de Cartas
+export interface IPaginatedCards {
+  list: ICard[];
+  rpp: number;
+  page: number;
+  more: boolean;
+}
+
 // (GET /me)
 export interface IMeResponse extends IUser {
   cards: ICard[];
