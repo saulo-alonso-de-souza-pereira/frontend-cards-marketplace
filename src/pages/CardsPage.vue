@@ -32,7 +32,7 @@
           :key="card.id"
           class="col-xs-12 col-sm-6 col-md-4 col-lg-3"
         >
-          <card-item :card="card" @add="onAddCard" />
+          <card-item :card="card" />
         </div>
       </template>
 
@@ -53,8 +53,6 @@
   import { onMounted } from 'vue';
   import { useCardsStore } from 'src/stores/cards';
   import CardItem from 'src/components/CardItem.vue';
-  import type { ICard } from 'src/types';
-  import { Notify } from 'quasar';
 
   const cardsStore = useCardsStore();
 
@@ -81,14 +79,6 @@
     } catch {
       // Silencia o erro
     }
-  }
-
-  const onAddCard = (card: ICard) => {
-    Notify.create({
-      message: `Carta ${card.name} selecionada para adição!`,
-      color: 'positive',
-      icon: 'check_circle'
-    });
   };
 
 </script>

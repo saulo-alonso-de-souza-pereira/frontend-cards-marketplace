@@ -18,7 +18,6 @@ export const useCardsStore = defineStore('cards', {
       try {
         const pageNumber = Number(page) || 1;
         const response = await api.get<IPaginatedCards>('/cards', { params: { page: pageNumber, rpp: 10} });
-        console.log('Resposta da API:', response.data);
         if (page === 1) {
           this.cards = response.data.list;
         } else {
