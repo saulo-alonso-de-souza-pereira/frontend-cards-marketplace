@@ -1,11 +1,13 @@
 import { defineStore } from 'pinia';
 import { api } from 'boot/axios';
-import type { ICard, IPaginatedCards } from 'src/types';
+import type { ICard, IPaginatedCards, ITrade, IPaginatedTrades } from 'src/types';
+import { useAuthStore } from './auth';
 import { Notify } from 'quasar';
 
 export const useCardsStore = defineStore('cards', {
   state: () => ({
     cards: [] as ICard[],
+    myTrades: [] as ITrade[],
     loading: false,
     hasMore: true,
     currentPage: 1
@@ -56,6 +58,38 @@ export const useCardsStore = defineStore('cards', {
 
         return true;
 
+      } catch {
+        return false;
+      }
+    },
+    async fetchMyTrades() {
+      this.loading = true;
+      const authStore = useAuthStore();
+      try {
+        const response = await api.get<IPaginatedTrades>('/trades', {
+          params: {
+            page: 1,
+            rpp: 50
+          }
+        });
+        this.myTrades = response.data.list.filter(t => t.userId === authStore.user?.id);
+        console.log('Minhas trocas:', this.myTrades);
+      } finally {
+        this.loading = false;
+      }
+    },
+
+    async deleteTrade(tradeId: string) {
+      try {
+        await api.delete(`/trades/${tradeId}`);
+
+        this.myTrades = this.myTrades.filter(t => t.id !== tradeId);
+
+        Notify.create({
+          type: 'positive',
+          message: 'Solicitação de troca removida com sucesso.'
+        });
+        return true;
       } catch {
         return false;
       }

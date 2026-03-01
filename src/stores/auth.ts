@@ -48,11 +48,6 @@ export const useAuthStore = defineStore('auth', {
 
         return true;
       } catch {
-        Notify.create({
-          message: `Erro ao adicionar carta ao seu inventário.`,
-          color: 'negative',
-          icon: 'error'
-        });
         return false;
       }
     },
@@ -65,8 +60,8 @@ export const useAuthStore = defineStore('auth', {
           email: response.data.email
         };
         this.myCards = response.data.cards;
-      } catch (error) {
-        console.error('Erro ao carregar perfil:', error);
+      } catch {
+        return false;
       }
     },
   }

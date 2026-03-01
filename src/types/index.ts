@@ -37,3 +37,28 @@ export interface IPaginatedCards {
 export interface IMeResponse extends IUser {
   cards: ICard[];
 }
+
+export type TradeCardType = 'OFFERING' | 'RECEIVING';
+
+export interface ITradeCard {
+  id: string;
+  cardId: string;
+  type: TradeCardType;
+  card: ICard;
+}
+
+export interface ITrade {
+  id: string;
+  userId: string;
+  user: IUser;
+  createdAt: string;
+  cards: ITradeCard[];
+}
+
+export interface IPaginatedTrades {
+  list: ITrade[];
+  total: number;
+  page: number;
+  rpp: number;
+  more: boolean;
+}
