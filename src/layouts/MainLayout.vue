@@ -41,6 +41,10 @@
           <q-item-section avatar><q-icon name="collections" /></q-item-section>
           <q-item-section>Catálogo de Cartas</q-item-section>
         </q-item>
+        <q-item clickable v-ripple :to="{ name: 'dashboard' }">
+          <q-item-section avatar><q-icon name="dashboard" /></q-item-section>
+          <q-item-section>Meu Painel de Trocas</q-item-section>
+        </q-item>
         <q-item clickable v-ripple :to="{ name: 'my-cards' }">
           <q-item-section avatar><q-icon name="portrait" /></q-item-section>
           <q-item-section>Meu Inventário</q-item-section>

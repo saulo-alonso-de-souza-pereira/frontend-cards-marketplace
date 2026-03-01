@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import { api } from 'boot/axios';
 import { Notify } from 'quasar';
-import type { IUser, ILoginResponse, ICard } from 'src/types';
+import type { IUser, ILoginResponse, ICard, IMeResponse } from 'src/types';
 import { useCardsStore } from './cards';
 
 
@@ -39,11 +39,7 @@ export const useAuthStore = defineStore('auth', {
           cardIds: [cardId]
         });
         console.log('Carta adicionada ao inventário do usuário ', cardId);
-        // eslint-disable-next-line
-        api.get<IUser>('/me').then( response => {
-          const updatedUser = response.data;
-          console.log('Resposta atualizada do usuário:', updatedUser);
-        });
+
         Notify.create({
           message: `Carta adicionada ao seu inventário!`,
           color: 'positive',
@@ -59,6 +55,19 @@ export const useAuthStore = defineStore('auth', {
         });
         return false;
       }
-    }
+    },
+    async fetchMe() {
+      try {
+        const response = await api.get<IMeResponse>('/me');
+        this.user = {
+          id: response.data.id,
+          name: response.data.name,
+          email: response.data.email
+        };
+        this.myCards = response.data.cards; // Preenche o inventário
+      } catch (error) {
+        console.error('Erro ao carregar perfil:', error);
+      }
+    },
   }
 });
