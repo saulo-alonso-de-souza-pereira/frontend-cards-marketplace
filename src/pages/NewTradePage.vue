@@ -37,25 +37,33 @@
         <q-card flat bordered class="full-height">
           <q-card-section class="bg-secondary text-white">
             <div class="text-h6">Cartas Desejadas</div>
-            <div class="text-caption">Selecione as cartas que deseja receber</div>
+            <div class="text-caption">Role para carregar mais cartas</div>
           </q-card-section>
 
           <q-card-section class="q-pa-none scroll" style="max-height: 60vh">
-            <q-list separator>
-              <q-item v-for="card in cardsStore.cards" :key="card.id" tag="label" v-ripple>
-                <q-item-section side>
-                  <q-checkbox v-model="form.cardsReceiving" :val="card.id" />
-                </q-item-section>
-                <q-item-section avatar>
-                  <q-avatar rounded size="48px">
-                    <img :src="card.imageUrl">
-                  </q-avatar>
-                </q-item-section>
-                <q-item-section>
-                  <q-item-label>{{ card.name }}</q-item-label>
-                </q-item-section>
-              </q-item>
-            </q-list>
+            <q-infinite-scroll @load="onLoadMoreCards" :offset="250" :disable="!cardsStore.hasMore">
+              <q-list separator>
+                <q-item v-for="card in cardsStore.cards" :key="card.id" tag="label" v-ripple>
+                  <q-item-section side>
+                    <q-checkbox v-model="form.cardsReceiving" :val="card.id" />
+                  </q-item-section>
+                  <q-item-section avatar>
+                    <q-avatar rounded size="48px">
+                      <img :src="card.imageUrl">
+                    </q-avatar>
+                  </q-item-section>
+                  <q-item-section>
+                    <q-item-label>{{ card.name }}</q-item-label>
+                  </q-item-section>
+                </q-item>
+              </q-list>
+
+              <template v-slot:loading>
+                <div class="row justify-center q-my-md">
+                  <q-spinner-dots color="secondary" size="40px" />
+                </div>
+              </template>
+            </q-infinite-scroll>
           </q-card-section>
         </q-card>
       </div>
@@ -104,8 +112,17 @@
     submitting.value = false;
   }
 
+  async function onLoadMoreCards(index: number, done: (stop?: boolean) => void) {
+    if (cardsStore.hasMore) {
+      await cardsStore.fetchCards(cardsStore.currentPage + 1, true);
+      done(!cardsStore.hasMore);
+    } else {
+      done(true);
+    }
+  }
+
   onMounted(async () => {
     await authStore.fetchMe();
-    await cardsStore.fetchCards();
+    await cardsStore.fetchCards(1, false);
   });
 </script>

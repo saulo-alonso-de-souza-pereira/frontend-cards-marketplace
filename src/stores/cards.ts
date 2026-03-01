@@ -11,7 +11,7 @@ export const useCardsStore = defineStore('cards', {
     currentPage: 1
   }),
   actions: {
-    async fetchCards(page = 1) {
+    async fetchCards(page = 1, append = false) {
 
       if (this.cards.length > 0 && page === 1) return;
 
@@ -19,13 +19,15 @@ export const useCardsStore = defineStore('cards', {
       try {
         const pageNumber = Number(page) || 1;
         const response = await api.get<IPaginatedCards>('/cards', { params: { page: pageNumber, rpp: 10} });
-        if (page === 1) {
-          this.cards = response.data.list;
+
+        if (append) {
+          this.cards = [...this.cards, ...response.data.list];
         } else {
           this.cards.push(...response.data.list);
         }
-        this.hasMore = response.data.more;
+
         this.currentPage = response.data.page;
+        this.hasMore = response.data.more;
       } finally {
         this.loading = false;
       }
