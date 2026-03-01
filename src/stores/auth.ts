@@ -64,7 +64,7 @@ export const useAuthStore = defineStore('auth', {
           name: response.data.name,
           email: response.data.email
         };
-        this.myCards = response.data.cards; // Preenche o inventário
+        this.myCards = response.data.cards;
       } catch (error) {
         console.error('Erro ao carregar perfil:', error);
       }

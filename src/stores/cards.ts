@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia';
 import { api } from 'boot/axios';
 import type { ICard, IPaginatedCards } from 'src/types';
+import { Notify } from 'quasar';
 
 export const useCardsStore = defineStore('cards', {
   state: () => ({
@@ -28,6 +29,35 @@ export const useCardsStore = defineStore('cards', {
       } finally {
         this.loading = false;
       }
+    },
+    async createTrade(cardsOffer: string[], cardsReceiving: string[]) {
+      try {
+        const payload = {
+          cards: [
+            ...cardsOffer.map(id => ({
+              cardId: id,
+              type: 'OFFERING'
+            })),
+            ...cardsReceiving.map(id => ({
+              cardId: id,
+              type: 'RECEIVING'
+            }))
+          ]
+        };
+
+        await api.post('/trades', payload);
+
+        Notify.create({
+          type: 'positive',
+          message: 'Solicitação de troca enviada!',
+        });
+
+        return true;
+
+      } catch {
+        return false;
+      }
     }
   }
+
 });
