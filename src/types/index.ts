@@ -43,6 +43,7 @@ export type TradeCardType = 'OFFERING' | 'RECEIVING';
 export interface ITradeCard {
   id: string;
   cardId: string;
+  tradeId: string;
   type: TradeCardType;
   card: ICard;
 }
@@ -52,7 +53,7 @@ export interface ITrade {
   userId: string;
   user: IUser;
   createdAt: string;
-  cards: ITradeCard[];
+  tradeCards: ITradeCard[];
 }
 
 export interface IPaginatedTrades {
