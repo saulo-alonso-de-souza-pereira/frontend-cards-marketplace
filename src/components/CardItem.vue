@@ -1,5 +1,5 @@
 <template>
-  <q-card class="card-item no-shadow bordered full-height column">
+  <q-card class="card-item bg-accent no-shadow color-accent bordered full-height column q-pt-md">
     <q-img
       :src="card.imageUrl"
       :ratio="1"
