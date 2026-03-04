@@ -2,7 +2,7 @@
   <q-page class="q-pa-md bg-grey-1">
     <div class="row q-col-gutter-md">
       <div class="col-12 flex justify-between items-center q-mb-md">
-        <div class="text-h5 text-weight-bold text-primary">Meu Inventário</div>
+        <div class="text-h5 text-weight-bold text-secondary">Meu Inventário</div>
         <q-btn flat round icon="refresh" :loading="loading" @click="fetchMyCards" />
       </div>
 

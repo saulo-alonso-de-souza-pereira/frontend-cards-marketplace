@@ -1,63 +1,69 @@
 <template>
-  <q-card flat bordered class="auth-card q-pa-lg">
-    <q-card-section class="text-center">
-      <div class="text-h5 text-weight-bold">{{ isLogin ? 'Entrar' : 'Criar Conta' }}</div>
-      <div class="text-subtitle2 text-grey-7">
-        {{ isLogin ? 'Acesse seu marketplace de cartas' : 'Cadastre-se marketplace de cartas' }}
-      </div>
+  <div class="col">
+    <q-card flat bordered class="auth-card q-pa-lg">
+      <q-card-section class="text-center">
+        <div class="text-h5 text-weight-bold">{{ isLogin ? 'Entrar' : 'Criar Conta' }}</div>
+        <div class="text-subtitle2 text-grey-7">
+          {{ isLogin ? 'Acesse seu marketplace de cartas' : 'Cadastre-se marketplace de cartas' }}
+        </div>
+      </q-card-section>
+
+      <q-form @submit.prevent="handleSubmit" class="q-gutter-md">
+        <q-input
+          v-if="!isLogin"
+          v-model="form.name"
+          label="Nome Completo"
+          outlined
+          lazy-rules
+          :rules="[val => !!val || 'O nome é obrigatório']"
+        />
+
+        <q-input
+          v-model="form.email"
+          type="email"
+          label="E-mail"
+          outlined
+          lazy-rules
+          :rules="[val => !!val || 'E-mail é obrigatório']"
+        />
+
+        <q-input
+          v-model="form.password"
+          type="password"
+          label="Senha"
+          outlined
+          lazy-rules
+          :rules="[
+            val => !!val || 'Senha é obrigatória',
+            val => val.length >= 6 || 'Mínimo de 6 caracteres'
+          ]"
+        />
+
+        <div class="column q-gutter-y-sm">
+          <q-btn
+            :label="isLogin ? 'Login' : 'Registrar'"
+            type="submit"
+            color="primary"
+            unelevated
+            class="full-width"
+            :loading="loading"
+          />
+
+          <q-btn
+            flat
+            :label="isLogin ? 'Não tem uma conta? Registre-se' : 'Já possui conta? Faça login'"
+            :to="isLogin ? '/auth/register' : '/auth/login'"
+            color="secondary"
+            class="full-width"
+          />
+        </div>
+      </q-form>
+    </q-card>
+    <q-card-section class="row justify-around">
+      <q-btn flat label="Cartas" :to="{ name: 'home' }"/>
+      <q-btn flat label="Trocas" :to="{ name: 'trades-market' }"/>
     </q-card-section>
-
-    <q-form @submit.prevent="handleSubmit" class="q-gutter-md">
-      <q-input
-        v-if="!isLogin"
-        v-model="form.name"
-        label="Nome Completo"
-        outlined
-        lazy-rules
-        :rules="[val => !!val || 'O nome é obrigatório']"
-      />
-
-      <q-input
-        v-model="form.email"
-        type="email"
-        label="E-mail"
-        outlined
-        lazy-rules
-        :rules="[val => !!val || 'E-mail é obrigatório']"
-      />
-
-      <q-input
-        v-model="form.password"
-        type="password"
-        label="Senha"
-        outlined
-        lazy-rules
-        :rules="[
-          val => !!val || 'Senha é obrigatória',
-          val => val.length >= 6 || 'Mínimo de 6 caracteres'
-        ]"
-      />
-
-      <div class="column q-gutter-y-sm">
-        <q-btn
-          :label="isLogin ? 'Login' : 'Registrar'"
-          type="submit"
-          color="primary"
-          unelevated
-          class="full-width"
-          :loading="loading"
-        />
-
-        <q-btn
-          flat
-          :label="isLogin ? 'Não tem uma conta? Registre-se' : 'Já possui conta? Faça login'"
-          :to="isLogin ? '/auth/register' : '/auth/login'"
-          color="secondary"
-          class="full-width"
-        />
-      </div>
-    </q-form>
-  </q-card>
+  </div>
 </template>
 
 <script setup lang="ts">

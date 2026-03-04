@@ -2,30 +2,25 @@
   <q-layout view="lHh Lpr lFf">
     <q-header elevated>
       <q-toolbar>
-        <q-btn
-          v-if="authStore.isAuthenticated"
-          flat
-          dense
-          round
-          icon="menu"
-          aria-label="Menu"
-          @click="toggleLeftDrawer"
-        />
-
-        <q-toolbar-title>
+        <q-toolbar-title class="text-h4 q-mt-md">
           Cards Marketplace
         </q-toolbar-title>
+      </q-toolbar>
+      <q-toolbar>
+        <q-btn v-if="authStore.isAuthenticated" flat icon="menu" aria-label="Menu" @click="toggleLeftDrawer" exact/>
 
-        <div class="q-gutter-sm">
-          <template v-if="!authStore.isAuthenticated">
-            <q-btn flat label="Entrar" :to="{ name: 'login' }" />
-            <q-btn color="white" text-color="primary" label="Registrar" :to="{ name: 'register' }" />
-          </template>
 
-          <template v-else>
-            <q-btn flat label="Sair" icon-right="logout" @click="handleLogout" />
-          </template>
-        </div>
+        <q-btn flat label="Cartas" class="q-mr-sm" :to="{ name: 'home' }" exact/>
+        <q-btn flat label="Trocas" :to="{ name: 'trades-market' }" exact/>
+        <q-space />
+        <template v-if="!authStore.isAuthenticated">
+          <q-btn flat class="q-mr-sm" label="Entrar" :to="{ name: 'login' }" exact/>
+          <q-btn color="white" text-color="primary" label="Registrar" :to="{ name: 'register' }" exact/>
+        </template>
+
+        <template v-else>
+          <q-btn flat label="Sair" icon-right="logout" @click="handleLogout" exact/>
+        </template>
       </q-toolbar>
     </q-header>
 
@@ -37,10 +32,6 @@
     >
       <q-list>
         <q-item-label header>Menu Dashboard</q-item-label>
-        <q-item clickable v-ripple :to="{ name: 'home' }">
-          <q-item-section avatar><q-icon name="collections" /></q-item-section>
-          <q-item-section>Catálogo de Cartas</q-item-section>
-        </q-item>
         <q-item clickable v-ripple :to="{ name: 'dashboard' }">
           <q-item-section avatar><q-icon name="dashboard" /></q-item-section>
           <q-item-section>Meu Painel de Trocas</q-item-section>

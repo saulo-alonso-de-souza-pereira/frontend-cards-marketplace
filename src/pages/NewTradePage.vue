@@ -2,13 +2,13 @@
   <q-page class="q-pa-md bg-grey-2">
     <div class="row q-col-gutter-lg">
       <div class="col-12 flex justify-between items-center">
-        <div class="text-h5 text-weight-bold">Nova Solicitação de Troca</div>
+        <div class="text-h5 text-weight-bold text-secondary">Nova Solicitação de Troca</div>
         <q-btn flat icon="arrow_back" label="Voltar" :to="{ name: 'dashboard' }" />
       </div>
 
       <div class="col-12 col-md-6">
         <q-card flat bordered class="full-height">
-          <q-card-section class="bg-primary text-white">
+          <q-card-section class="bg-white text-primary">
             <div class="text-h6">Minhas Cartas (Oferta)</div>
             <div class="text-caption">Selecione as cartas que deseja oferecer</div>
           </q-card-section>
@@ -35,7 +35,7 @@
 
       <div class="col-12 col-md-6">
         <q-card flat bordered class="full-height">
-          <q-card-section class="bg-secondary text-white">
+          <q-card-section class="bg-white text-secondary">
             <div class="text-h6">Cartas Desejadas</div>
             <div class="text-caption">Role para carregar mais cartas</div>
           </q-card-section>
@@ -68,7 +68,7 @@
         </q-card>
       </div>
 
-      <div class="col-12 flex justify-center q-mt-md">
+      <div class="col-12 flex justify-center">
         <q-btn
           color="positive"
           size="lg"

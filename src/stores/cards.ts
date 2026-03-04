@@ -10,7 +10,10 @@ export const useCardsStore = defineStore('cards', {
     myTrades: [] as ITrade[],
     loading: false,
     hasMore: true,
-    currentPage: 1
+    currentPage: 1,
+    publicTrades: [] as ITrade[],
+    publicTradesHasMore: true,
+    publicTradesCurrentPage: 1,
   }),
   actions: {
     async fetchCards(page = 1, append = false) {
@@ -92,6 +95,33 @@ export const useCardsStore = defineStore('cards', {
         return true;
       } catch {
         return false;
+      }
+    },
+
+    async fetchPublicTrades(page = 1, append = false) {
+      this.loading = true;
+      try {
+        const pageNumber = Number(page) || 1;
+        const response = await api.get<IPaginatedTrades>('/trades', {
+          params: {
+            page: pageNumber,
+            rpp: 12
+          }
+        });
+
+        if (append) {
+          this.publicTrades = [...this.publicTrades, ...response.data.list];
+        } else {
+          this.publicTrades = response.data.list;
+        }
+
+        this.publicTradesCurrentPage = response.data.page;
+        this.publicTradesHasMore = response.data.more;
+
+      } catch (error) {
+        console.error('Erro ao buscar mercado de trocas:', error);
+      } finally {
+        this.loading = false;
       }
     }
   }

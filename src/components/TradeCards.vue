@@ -1,5 +1,5 @@
 <template>
-  <q-item class="q-py-md trade-item-container">
+  <q-item :class="`${props.readonly ? 'q-py-md' : 'q-py-md trade-item-container'}`">
     <q-item-section>
       <div class="row items-center justify-center q-gutter-md">
 
@@ -38,17 +38,12 @@
       </div>
     </q-item-section>
 
-    <q-item-section side>
-      <q-btn
-        flat
-        round
-        color="negative"
-        icon="delete"
-        @click="$emit('delete', trade.id)"
-      >
+    <q-item-section side v-if="!readonly">
+      <q-btn flat round color="negative" icon="delete" @click="$emit('delete', trade.id)">
         <q-tooltip>Cancelar Troca</q-tooltip>
       </q-btn>
     </q-item-section>
+
   </q-item>
 </template>
 
@@ -67,7 +62,8 @@
           name: string
         };
       }>;
-    }
+    };
+    readonly?: boolean;
   }>();
 
 
