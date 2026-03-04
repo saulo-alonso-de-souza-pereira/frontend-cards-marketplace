@@ -19,19 +19,20 @@ export default route(function (/* { store, ssrContext } */) {
     history: createHistory(process.env.VUE_ROUTER_BASE),
   });
 
-  Router.beforeEach((to, from, next) => {
+  Router.beforeEach((to) => {
     const authStore = useAuthStore();
 
     const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
     const isAuthPage = to.path.startsWith('/auth');
 
     if (requiresAuth && !authStore.isAuthenticated) {
-      next({ name: 'login' });
+
+      return { name: 'login' };
     } else if (isAuthPage && authStore.isAuthenticated) {
-      next({ name: 'dashboard' });
-    } else {
-      next();
+      return { name: 'dashboard' };
     }
+
+    return true;
   });
 
   return Router;

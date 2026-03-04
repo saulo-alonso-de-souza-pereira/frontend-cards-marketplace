@@ -37,18 +37,18 @@ export const useCardsStore = defineStore('cards', {
         this.loading = false;
       }
     },
-    async createTrade(cardsOffer: string[], cardsReceiving: string[]) {
+    async createTrade(cardOfferId: string, cardReceivingId: string) {
       try {
         const payload = {
           cards: [
-            ...cardsOffer.map(id => ({
-              cardId: id,
+            {
+              cardId: cardOfferId,
               type: 'OFFERING'
-            })),
-            ...cardsReceiving.map(id => ({
-              cardId: id,
+            },
+            {
+              cardId: cardReceivingId,
               type: 'RECEIVING'
-            }))
+            }
           ]
         };
 
@@ -61,7 +61,8 @@ export const useCardsStore = defineStore('cards', {
 
         return true;
 
-      } catch {
+      } catch (error) {
+        console.error('Erro ao criar troca:', error);
         return false;
       }
     },
