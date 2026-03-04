@@ -60,8 +60,8 @@
       </q-form>
     </q-card>
     <q-card-section class="row justify-around">
-      <q-btn flat label="Cartas" :to="{ name: 'home' }"/>
-      <q-btn flat label="Trocas" :to="{ name: 'trades-market' }"/>
+      <q-btn flat label="Cartas" :to="{ name: 'cards' }"/>
+      <q-btn flat label="Trocas" :to="{ name: 'home' }"/>
     </q-card-section>
   </div>
 </template>

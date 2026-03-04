@@ -44,13 +44,20 @@
       </q-btn>
     </q-item-section>
 
+    <q-item-section side v-if="readonly && authStore.isAuthenticated">
+      <q-btn flat round color="info" icon="shopping_cart" @click="$emit('shoppingCart', trade.id)">
+        <q-tooltip>Adicionar ao Carrinho</q-tooltip>
+      </q-btn>
+    </q-item-section>
+
   </q-item>
 </template>
 
 <script setup lang="ts">
   import { computed } from 'vue';
+  import { useAuthStore } from 'src/stores/auth';
 
-
+  const authStore = useAuthStore();
   const props = defineProps<{
     trade: {
       id: string;
@@ -67,7 +74,7 @@
   }>();
 
 
-  defineEmits(['delete']);
+  defineEmits(['delete', 'shoppingCart']);
 
   const offeringCard = computed(() =>
     props.trade.tradeCards.find(tc => tc.type === 'OFFERING')

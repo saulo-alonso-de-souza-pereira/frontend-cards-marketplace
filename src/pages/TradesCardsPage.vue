@@ -25,7 +25,7 @@
       >
         <q-card class="full-height flex column justify-between" flat bordered>
           <q-list class="q-py-sm">
-            <TradeCards :trade="trade" readonly />
+            <TradeCards :trade="trade" readonly @shoppingCart="handleShoppingCart" />
           </q-list>
         </q-card>
       </div>
@@ -56,8 +56,18 @@
   import { onMounted } from 'vue';
   import { useCardsStore } from 'src/stores/cards';
   import TradeCards from 'src/components/TradeCards.vue';
+  import { useQuasar } from 'quasar';
 
+  const $q = useQuasar();
   const cardsStore = useCardsStore();
+
+  const handleShoppingCart = (id: string) => {
+    $q.dialog({
+      title: 'Troca adicionada',
+      message: `Troca ${id} foi adicionada ao seu carrinho.`,
+      cancel: true
+    })
+  };
 
   onMounted(async () => {
     await cardsStore.fetchPublicTrades(1, false);

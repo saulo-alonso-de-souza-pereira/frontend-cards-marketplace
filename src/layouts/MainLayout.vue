@@ -10,8 +10,8 @@
         <q-btn v-if="authStore.isAuthenticated" flat icon="menu" aria-label="Menu" @click="toggleLeftDrawer" exact/>
 
 
-        <q-btn flat label="Cartas" class="q-mr-sm" :to="{ name: 'home' }" exact/>
-        <q-btn flat label="Trocas" :to="{ name: 'trades-market' }" exact/>
+        <q-btn flat label="Cartas" class="q-mr-sm" :to="{ name: 'cards' }" exact/>
+        <q-btn flat label="Trocas" :to="{ name: 'home' }" exact/>
         <q-space />
         <template v-if="!authStore.isAuthenticated">
           <q-btn flat class="q-mr-sm" label="Entrar" :to="{ name: 'login' }" exact/>
