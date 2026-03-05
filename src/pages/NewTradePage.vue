@@ -115,7 +115,8 @@
 
   async function onLoadMoreCards(index: number, done: (stop?: boolean) => void) {
     if (cardsStore.hasMore) {
-      await cardsStore.fetchCards(cardsStore.currentPage + 1, true);
+      const nextPage = cardsStore.currentPage + 1;
+      await cardsStore.fetchCards(nextPage, true);
       done();
     } else {
       done(true);

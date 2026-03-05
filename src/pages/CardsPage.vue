@@ -60,26 +60,27 @@
 
   onMounted(async () => {
     try {
-      await cardsStore.fetchCards();
+      await cardsStore.fetchCards(1, false, false);
     } catch {
-      // Silencia o erro
+      return false;
     }
   });
 
   const refreshCards = async () => {
 
     try {
-      await cardsStore.fetchCards(1);
+      await cardsStore.fetchCards(1, false, true);
     } catch {
-      // Silencia o erro
+      return false;
     }
   };
 
   const loadMore = async () => {
     try {
-      await cardsStore.fetchCards(cardsStore.currentPage + 1);
+      const nextPage = cardsStore.publicTradesCurrentPage + 1;
+      await cardsStore.fetchCards(nextPage, true, false);
     } catch {
-      // Silencia o erro
+      return false;
     }
   };
 

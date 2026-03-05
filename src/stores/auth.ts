@@ -38,7 +38,6 @@ export const useAuthStore = defineStore('auth', {
         await api.post('/me/cards', {
           cardIds: [cardId]
         });
-        console.log('Carta adicionada ao inventário do usuário ', cardId);
 
         Notify.create({
           message: `Carta adicionada ao seu inventário!`,

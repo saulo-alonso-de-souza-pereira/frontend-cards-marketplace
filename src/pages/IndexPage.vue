@@ -37,7 +37,7 @@
           <q-card-section class="row items-center q-pb-none">
             <div class="text-h6 text-weight-bold text-grey-8">Minhas Solicitações de Troca</div>
             <q-space />
-            <q-btn flat round icon="refresh" @click="cardsStore.fetchMyTrades()" :loading="cardsStore.loading" />
+            <q-btn flat round icon="refresh" @click="refreshTradeCards" :loading="cardsStore.loading" />
           </q-card-section>
 
           <q-card-section>
@@ -84,10 +84,19 @@ const confirmDelete = (id: string) => {
   });
 };
 
+const refreshTradeCards = async () => {
+
+    try {
+      await cardsStore.fetchMyTrades(true);
+    } catch {
+      return false;
+    }
+  };
+
 onMounted(async () => {
   await Promise.all([
     authStore.fetchMe(),
-    cardsStore.fetchMyTrades()
+    cardsStore.fetchMyTrades(false)
   ]);
 });
 </script>

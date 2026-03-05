@@ -10,7 +10,7 @@
           flat
           round
           icon="refresh"
-          @click="cardsStore.fetchPublicTrades(1, false)"
+          @click="refreshPublicTradeCards"
           :loading="cardsStore.loading"
           color="primary"
         />
@@ -69,12 +69,21 @@
     })
   };
 
+  const refreshPublicTradeCards = async () => {
+
+    try {
+      await cardsStore.fetchPublicTrades(1, false, true);
+    } catch {
+      return false;
+    }
+  };
+
   onMounted(async () => {
-    await cardsStore.fetchPublicTrades(1, false);
+    await cardsStore.fetchPublicTrades(1, false, false);
   });
 
   const loadMore = async () => {
     const nextPage = cardsStore.publicTradesCurrentPage + 1;
-    await cardsStore.fetchPublicTrades(nextPage, true);
+    await cardsStore.fetchPublicTrades(nextPage, true, false);
   };
 </script>
