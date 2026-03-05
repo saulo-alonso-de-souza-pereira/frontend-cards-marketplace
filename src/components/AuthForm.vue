@@ -98,11 +98,8 @@ async function handleSubmit() {
       Notify.create({ type: 'positive', message: 'Cadastro realizado! Agora faça seu login.' });
       await router.push({ name: 'login' });
     }
-  } catch (error) {
-    Notify.create({
-      type: 'negative',
-      message: error instanceof Error ? `Ocorreu um erro: ${error.message}` : 'Ocorreu um erro'
-    });
+  } catch {
+    return false;
   } finally {
     loading.value = false;
   }

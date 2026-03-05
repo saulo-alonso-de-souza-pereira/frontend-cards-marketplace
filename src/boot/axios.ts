@@ -59,7 +59,6 @@ export default boot(({ app }) => {
       Notify.create({
         type: 'negative',
         message,
-        position: 'top-right',
       });
 
       return Promise.reject(error as Error);
